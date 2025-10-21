@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, Listbox
-import subprocess
 import json
 import os
 
@@ -60,7 +59,10 @@ class AppLauncher:
     def run_all(self):
         for app in self.apps:
             if os.path.isfile(app):
-                subprocess.Popen([app])
+                try:
+                    os.startfile(app)  # Работает с .exe, .bat, ярлыками и путями с пробелами/русскими буквами
+                except Exception as e:
+                    messagebox.showerror("Ошибка", f"Не удалось запустить {app}:\n{e}")
             else:
                 messagebox.showerror("Ошибка", f"Файл не найден: {app}")
 
